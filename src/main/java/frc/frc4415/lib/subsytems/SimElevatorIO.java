@@ -32,7 +32,7 @@ public class SimElevatorIO extends TalonFXIO {
                 elevatorConfig.drumRadius,
                 config.kMinPositionUnits,
                 config.kMaxPositionUnits,
-                true, 0.0);
+                false, 0.0);
         // Assume that config is correct (which it might not be)
         talon.getSimState().Orientation = (config.fxConfig.MotorOutput.Inverted == InvertedValue.Clockwise_Positive)
                 ? ChassisReference.Clockwise_Positive

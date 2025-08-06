@@ -39,6 +39,6 @@ public class RobotContainer {
   private void configureBindings() {
     //a = key1
     final DoubleSubscriber setHeight = DogLog.tunable("Elevator/setHeightInches", 0.0);
-    m_driverController.a().whileTrue(Commands.runOnce(() -> m_elevator.motionMagicSetpointCommandBlocking(Units.inchesToMeters(setHeight.get()), .5)));
+    m_driverController.a().onTrue(m_elevator.positionSetpointCommand(() -> Units.inchesToMeters(setHeight.get())));
   }
 }
