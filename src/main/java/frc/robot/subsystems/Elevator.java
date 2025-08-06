@@ -1,11 +1,12 @@
 package frc.robot.subsystems;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.frc4415.lib.subsytems.MotorIO;
-import frc.frc4415.lib.subsytems.MotorInputs;
-import frc.frc4415.lib.subsytems.ServoMotorSubsystem;
-import frc.frc4415.lib.subsytems.ServoMotorSubsystemConfig;
-import frc.frc4415.lib.util.Util;
+import frc.frc4415.frc254.subsytems.MotorIO;
+import frc.frc4415.frc254.subsytems.MotorInputs;
+import frc.frc4415.frc254.subsytems.ServoMotorSubsystem;
+import frc.frc4415.frc254.subsytems.ServoMotorSubsystemConfig;
+import frc.frc4415.frc254.util.Util;
 
 /**
  * The ElevatorSubsystem class is responsible for controlling the robot's
@@ -34,6 +35,7 @@ public class Elevator extends ServoMotorSubsystem<MotorInputs, MotorIO> {
     @Override
     public void periodic() {
         super.periodic();
+        DogLog.log("Elevator/Position", this.getCurrentPosition());
     }
 
     public Command motionMagicSetpointCommandBlocking(double setpoint, double tolerance) {

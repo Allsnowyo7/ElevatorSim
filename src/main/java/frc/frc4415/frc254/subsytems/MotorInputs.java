@@ -1,4 +1,4 @@
-package frc.frc4415.lib.subsytems;
+package frc.frc4415.frc254.subsytems;
 
 public class MotorInputs {
     public double velocityUnitsPerSecond = 0.0;

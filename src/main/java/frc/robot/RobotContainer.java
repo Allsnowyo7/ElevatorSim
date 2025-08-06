@@ -4,8 +4,8 @@
 
 package frc.robot;
 
-import frc.frc4415.lib.subsytems.SimElevatorIO;
-import frc.frc4415.lib.subsytems.TalonFXIO;
+import frc.frc4415.frc254.subsytems.SimElevatorIO;
+import frc.frc4415.frc254.subsytems.TalonFXIO;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Elevator;
 import dev.doglog.DogLog;
@@ -39,6 +39,7 @@ public class RobotContainer {
   private void configureBindings() {
     //a = key1
     final DoubleSubscriber setHeight = DogLog.tunable("Elevator/setHeightInches", 0.0);
-    m_driverController.a().onTrue(m_elevator.positionSetpointCommand(() -> Units.inchesToMeters(setHeight.get())));
+    m_driverController.a().whileTrue(m_elevator.motionMagicSetpointCommand(() -> Units.inchesToMeters(setHeight.get())));
+
   }
 }

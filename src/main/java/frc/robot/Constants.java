@@ -11,9 +11,9 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.util.Units;
-import frc.frc4415.lib.subsytems.CANDeviceId;
-import frc.frc4415.lib.subsytems.ServoMotorSubsystemConfig;
-import frc.frc4415.lib.subsytems.SimElevatorIO;
+import frc.frc4415.frc254.subsytems.CANDeviceId;
+import frc.frc4415.frc254.subsytems.ServoMotorSubsystemConfig;
+import frc.frc4415.frc254.subsytems.SimElevatorIO;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -58,7 +58,7 @@ public final class Constants {
         kElevatorConfig.fxConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = (ElevatorConstants.ElevatorMaxHeightInches
                 - 0.25) / ElevatorConstants.ElevatorMaxHeightInches * ElevatorConstants.ElevatorMaxPositionRotations;
         kElevatorConfig.fxConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
-        kElevatorConfig.fxConfig.Slot0.kG = 0.26;
+        kElevatorConfig.fxConfig.Slot0.kG = 0.0;
         kElevatorConfig.fxConfig.Slot0.kS = 0.18;
         kElevatorConfig.fxConfig.Slot0.kV = 0.135;
         kElevatorConfig.fxConfig.Slot0.kA = 0.0001 * 12.0;
