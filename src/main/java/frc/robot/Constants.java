@@ -13,6 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.util.Units;
 import frc.frc4415.lib.subsytems.CANDeviceId;
 import frc.frc4415.lib.subsytems.ServoMotorSubsystemConfig;
+import frc.frc4415.lib.subsytems.SimElevatorIO;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -31,57 +32,58 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class ElevatorConstants {
-    public static final double kElevatorPositioningToleranceInches = 1;
-    public static final ServoMotorSubsystemConfig kElevatorConfig = new ServoMotorSubsystemConfig();
-    private static final int ElevatorMaxHeightMeters = 0;
-    private static final int ElevatorMaxPositionRotations = 0;
-    private static int kElevatorGearRatio;
-    private static int kSpoolDiameter;
-
-    static {
-      kElevatorConfig.name = "Elevator";
-      kElevatorConfig.talonCANID = new CANDeviceId(10, "Default Name");
-      kElevatorConfig.fxConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      kElevatorConfig.fxConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-      kElevatorConfig.fxConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-      kElevatorConfig.fxConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      kElevatorConfig.fxConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = (ElevatorConstants.ElevatorMaxHeightMeters
-          - Units.inchesToMeters(0.25))
-          / ElevatorConstants.ElevatorMaxHeightMeters
-          * ElevatorConstants.ElevatorMaxPositionRotations;
-      kElevatorConfig.fxConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
-      kElevatorConfig.fxConfig.Slot0.kP = 5.0; // 3.0;
-      kElevatorConfig.fxConfig.Slot0.kI = 0.001;
-      kElevatorConfig.fxConfig.Slot0.kD = 0.21; // .0001 * 12.0;
-      kElevatorConfig.fxConfig.Slot0.kS = 0.0; // .18;
-      kElevatorConfig.fxConfig.Slot0.kV = 0.08; // .135;
-      kElevatorConfig.fxConfig.Slot0.kA = 0.0044; // .0001 * 12.0;
-      kElevatorConfig.fxConfig.Slot0.kG = 0.55; // 0.26;
-
-      kElevatorConfig.fxConfig.MotionMagic.MotionMagicAcceleration = 400; // 800;
-      kElevatorConfig.fxConfig.MotionMagic.MotionMagicCruiseVelocity = 80; // 80;
-      kElevatorConfig.fxConfig.MotionMagic.MotionMagicJerk = 2200;
-      kElevatorConfig.fxConfig.MotionMagic.MotionMagicExpo_kV = 0.09;
-      kElevatorConfig.fxConfig.MotionMagic.MotionMagicExpo_kA = 0.08;
-      kElevatorConfig.unitToRotorRatio = ElevatorConstants.kElevatorGearRatio * ElevatorConstants.kSpoolDiameter
-          * Math.PI;
-      kElevatorConfig.kMinPositionUnits = 0.0;
-      kElevatorConfig.kMaxPositionUnits = ElevatorConstants.ElevatorMaxHeightMeters;
-
-      kElevatorConfig.fxConfig.Audio.BeepOnBoot = false;
-      kElevatorConfig.fxConfig.Audio.BeepOnConfig = true;
-
-      kElevatorConfig.fxConfig.CurrentLimits.StatorCurrentLimit = 180.0;
-      kElevatorConfig.fxConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-      kElevatorConfig.fxConfig.ClosedLoopRamps = makeDefaultClosedLoopRampConfig();
-      kElevatorConfig.fxConfig.OpenLoopRamps = makeDefaultOpenLoopRampConfig();
-      kElevatorConfig.fxConfig.CurrentLimits.SupplyCurrentLimit = 70.0;
-      kElevatorConfig.fxConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-      kElevatorConfig.fxConfig.CurrentLimits.SupplyCurrentLowerLimit = 35.0;
-      kElevatorConfig.fxConfig.CurrentLimits.SupplyCurrentLowerTime = 0.2;
+  public static final class ElevatorConstants {
+        public static final double ElevatorMinPositionRotations = 0.0;
+        public static final double ElevatorMaxPositionRotations = 15.356933;
+        public static final double ElevatorMaxHeightInches = 16.5;
+        public static final double kElevatorGearRatio = (11.0 / 36.0) * (18. / 15.);
+        public static final double kElevatorPositionToleranceRotations = 0.1;
+        public static final double kAmpScoringHeightInches = 16.0;
+        public static final double kElevatorHomeHeightInches = 0.0;
+        public static final double kIntakeFromSourceHeightInches = 14.5;
+        public static final double kElevatorPositioningToleranceInches = 0.5;
+        public static final double kClimbHeightInches = 16.0;
+        public static final double kSpoolDiameter = Units.inchesToMeters(0.940);
     }
-  }
+
+    public static final ServoMotorSubsystemConfig kElevatorConfig = new ServoMotorSubsystemConfig();
+    public static final SimElevatorIO.SimElevatorConfig kElevatorSimConfig = new SimElevatorIO.SimElevatorConfig();
+    static {
+        kElevatorConfig.name = "Elevator";
+        kElevatorConfig.talonCANID = new CANDeviceId(23, "Default Name");
+        kElevatorConfig.fxConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        kElevatorConfig.fxConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        kElevatorConfig.fxConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        kElevatorConfig.fxConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+        kElevatorConfig.fxConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = (ElevatorConstants.ElevatorMaxHeightInches
+                - 0.25) / ElevatorConstants.ElevatorMaxHeightInches * ElevatorConstants.ElevatorMaxPositionRotations;
+        kElevatorConfig.fxConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
+        kElevatorConfig.fxConfig.Slot0.kG = 0.26;
+        kElevatorConfig.fxConfig.Slot0.kS = 0.18;
+        kElevatorConfig.fxConfig.Slot0.kV = 0.135;
+        kElevatorConfig.fxConfig.Slot0.kA = 0.0001 * 12.0;
+        kElevatorConfig.fxConfig.Slot0.kP = 3.0;
+
+        kElevatorConfig.fxConfig.MotionMagic.MotionMagicAcceleration = 800;
+        kElevatorConfig.fxConfig.MotionMagic.MotionMagicCruiseVelocity = 80;
+        kElevatorConfig.unitToRotorRatio = ElevatorConstants.ElevatorMaxHeightInches
+                / (ElevatorConstants.ElevatorMaxPositionRotations - ElevatorConstants.ElevatorMinPositionRotations);
+        kElevatorConfig.kMinPositionUnits = 0.0;
+        kElevatorConfig.kMaxPositionUnits = ElevatorConstants.ElevatorMaxHeightInches;
+
+        kElevatorConfig.fxConfig.Audio.BeepOnBoot = false;
+        kElevatorConfig.fxConfig.Audio.BeepOnConfig = false;
+
+        kElevatorConfig.fxConfig.CurrentLimits.StatorCurrentLimit = 80.0;
+        kElevatorConfig.fxConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+        kElevatorConfig.fxConfig.ClosedLoopRamps = makeDefaultClosedLoopRampConfig();
+        kElevatorConfig.fxConfig.OpenLoopRamps = makeDefaultOpenLoopRampConfig();
+
+        kElevatorSimConfig.gearing = ElevatorConstants.kElevatorGearRatio;
+        kElevatorSimConfig.carriageMass = Units.lbsToKilograms(7.98);
+        kElevatorSimConfig.drumRadius = ElevatorConstants.kSpoolDiameter;
+    }
+
     public static final OpenLoopRampsConfigs makeDefaultOpenLoopRampConfig() {
     return new OpenLoopRampsConfigs()
         .withDutyCycleOpenLoopRampPeriod(0.02)

@@ -4,9 +4,15 @@
 
 package frc.robot;
 
+import frc.frc4415.lib.subsytems.SimElevatorIO;
 import frc.frc4415.lib.subsytems.TalonFXIO;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Elevator;
+import dev.doglog.DogLog;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.DoubleSubscriber;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
@@ -20,12 +26,19 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_elevator = new Elevator(Constants.ElevatorConstants.kElevatorConfig, new TalonFXIO(Constants.ElevatorConstants.kElevatorConfig));
+        if (RobotBase.isSimulation()) {
+            m_elevator = new Elevator(Constants.kElevatorConfig,
+                    new SimElevatorIO(Constants.kElevatorConfig, Constants.kElevatorSimConfig));
+        } else {
+            m_elevator = new Elevator(Constants.kElevatorConfig, new TalonFXIO(Constants.kElevatorConfig));
+        }
     // Configure the trigger bindings
     configureBindings();
   }
 
   private void configureBindings() {
-    
+    //a = key1
+    final DoubleSubscriber setHeight = DogLog.tunable("Elevator/setHeightInches", 0.0);
+    m_driverController.a().whileTrue(Commands.runOnce(() -> m_elevator.motionMagicSetpointCommandBlocking(Units.inchesToMeters(setHeight.get()), .5)));
   }
 }
