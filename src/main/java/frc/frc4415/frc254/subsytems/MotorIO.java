@@ -3,6 +3,8 @@ package frc.frc4415.frc254.subsytems;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public interface MotorIO {
+    void updateConfig(ServoMotorSubsystemConfig config);
+
     void readInputs(MotorInputs inputs);
 
     void setOpenLoopDutyCycle(double dutyCycle);

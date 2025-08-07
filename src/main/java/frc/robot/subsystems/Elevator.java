@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import dev.doglog.DogLog;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.frc4415.frc254.subsytems.MotorIO;
 import frc.frc4415.frc254.subsytems.MotorInputs;
@@ -36,10 +40,25 @@ public class Elevator extends ServoMotorSubsystem<MotorInputs, MotorIO> {
     public void periodic() {
         super.periodic();
         DogLog.log("Elevator/Position", this.getCurrentPosition());
+        DogLog.log("Elevator/MotionMagic/MotionMagicAcceleration", this.conf.fxConfig.MotionMagic.MotionMagicAcceleration);
+        DogLog.log("Elevator/MotionMagic/MotionMagicCruiseVelocity", this.conf.fxConfig.MotionMagic.MotionMagicCruiseVelocity);
+        DogLog.log("Elevator/MotionMagic/MotionMagicJerk", this.conf.fxConfig.MotionMagic.MotionMagicJerk);
     }
 
     public Command motionMagicSetpointCommandBlocking(double setpoint, double tolerance) {
         return motionMagicSetpointCommand(() -> setpoint)
                 .until(() -> Util.epsilonEquals(getCurrentPosition(), setpoint, tolerance));
+    }
+    public void updateMMConfig(Optional<Double> MotionMagicAcceleration, Optional<Double> MotionMagicCruiseVelocity, Optional<Double> MotionMagicJerk) {
+        if (MotionMagicAcceleration.isPresent()) {
+            this.conf.fxConfig.MotionMagic.MotionMagicAcceleration = MotionMagicAcceleration.get();
+        }
+        if (MotionMagicCruiseVelocity.isPresent()) {
+            this.conf.fxConfig.MotionMagic.MotionMagicCruiseVelocity = MotionMagicCruiseVelocity.get();
+        }
+        if (MotionMagicJerk.isPresent()) {
+            this.conf.fxConfig.MotionMagic.MotionMagicJerk = MotionMagicJerk.get();
+        }
+        io.updateConfig(this.conf);
     }
 }

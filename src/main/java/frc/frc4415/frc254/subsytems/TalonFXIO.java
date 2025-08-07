@@ -60,6 +60,10 @@ public class TalonFXIO implements MotorIO {
         CTREUtil.tryUntilOK(() -> talon.optimizeBusUtilization(), talon.getDeviceID());
     }
 
+    public void updateConfig(ServoMotorSubsystemConfig config) {
+        CTREUtil.applyConfiguration(talon, config.fxConfig);
+    }
+
     private double rotorToUnits(double rotor) {
         return rotor * config.unitToRotorRatio;
     }
